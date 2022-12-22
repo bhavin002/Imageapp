@@ -10,9 +10,11 @@ const Register = () => {
     }
     const setImgFile = (e) =>{
         setFile(e.target.files[0]);
+    }
+    const saveData = async (e) =>{
+        e.preventDefault();
         
     }
-
     return (
         <>
             <div className="container">
@@ -26,14 +28,14 @@ const Register = () => {
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control  type="text" name='title' onChange={setData} placeholder="Enter Title..." />
+                                <Form.Control  type="text" name='title' value={title} onChange={setData} placeholder="Enter Title..." />
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Select Your Image</Form.Label>
-                                <Form.Control  type="file" name="image" onChange={setImgFile} placeholder="Choose Image..." />
+                                <Form.Control  type="file" name="image" value={file} onChange={setImgFile} placeholder="Choose Image..." />
                             </Form.Group>
-                            <Button variant="primary" type="submit">
+                            <Button variant="primary" type="submit" onClick={saveData}>
                                 Submit
                             </Button>
                         </Form>
