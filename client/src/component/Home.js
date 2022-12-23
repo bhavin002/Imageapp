@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import moment from 'moment';
 import axios from 'axios';
 const Home = () => {
     const [images, setImages] = useState([]);
     useEffect(() => {
         getAllData();
     }, [])
+    console.log(images)
     const config = {
         'Content-Type': 'application/json'
     }
@@ -32,11 +34,11 @@ const Home = () => {
                         images.length > 0 ? images.map((el, i) => {
                             return (
                                 <>
-                                    <Card style={{ width: '18rem' }} >
+                                    <Card style={{ width: '18rem' }}>
                                         <Card.Img variant="top" className='mt-3' src={`/uploads/${el.imgpath}`} />
-                                        <Card.Body>
+                                        <Card.Body >
                                             <Card.Title>{el.title}</Card.Title>
-                                            <Card.Text>{el.date}</Card.Text>
+                                            <Card.Text>{moment(el.date).format("YYYY-MM-DD")}</Card.Text>
                                             <Button className='btn btn-danger'>Delete</Button>
                                         </Card.Body>
                                     </Card>
