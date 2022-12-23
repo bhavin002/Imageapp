@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import {useNavigate} from 'react-router-dom';
+import axios from 'axios';
 const Register = () => {
+    const navigate = useNavigate();
     const [title,setTitle] = useState("");
     const [file,setFile] = useState("");
     const setData = (e) =>{
@@ -13,7 +16,21 @@ const Register = () => {
     }
     const saveData = async (e) =>{
         e.preventDefault();
-        
+        const formData = new FormData();
+        formData.append("photo",file);
+        formData.append("title",title);
+        const config = {
+            headers:{
+                'Content-Type':'multipart-formdata'
+            }
+        }
+        const res = await axios.post('/register',formData,config);
+        if(res.status === 201){
+            alert("Your Data Is Submitted SuccessFully");
+            navigate("/");
+        }else{
+            alert("Somthing Went Wrong");
+        }
     }
     return (
         <>
@@ -33,7 +50,7 @@ const Register = () => {
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Select Your Image</Form.Label>
-                                <Form.Control  type="file" name="image" value={file} onChange={setImgFile} placeholder="Choose Image..." />
+                                <Form.Control  type="file" name="photo" onChange={setImgFile} placeholder="Choose Image..." />
                             </Form.Group>
                             <Button variant="primary" type="submit" onClick={saveData}>
                                 Submit

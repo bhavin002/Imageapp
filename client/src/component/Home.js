@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Card from 'react-bootstrap/Card';
-import  Button  from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
+import axios from 'axios';
 const Home = () => {
+    const [images, setImages] = useState([]);
+    useEffect(() => {
+        getAllData();
+    }, [])
+    const config = {
+        'Content-Type': 'application/json'
+    }
+    const getAllData = async () => {
+        const Data = await axios.get('/users', config);
+        if (Data.status === 201) {
+            setImages(Data.data.AlluserData);
+        } else {
+            alert("Somthing Went Wrong");
+        }
+    }
+
     return (
         <>
             <div className="container">
@@ -11,30 +28,24 @@ const Home = () => {
                     </div>
                 </div>
                 <div className="row d-flex justify-content-between align-items-center mt-5">
-                    <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" className='mt-3' src="./com.jpg" />
-                        <Card.Body>
-                            <Card.Title>Computer</Card.Title>
-                            <Card.Text>Date : 12/03/2002</Card.Text>
-                            <Button className='btn btn-danger'>Delete</Button>
-                        </Card.Body>
-                    </Card>
-                    <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" className='mt-3' src="./com.jpg" />
-                        <Card.Body>
-                            <Card.Title>Computer</Card.Title>
-                            <Card.Text>Date : 12/03/2002</Card.Text>
-                            <Button className='btn btn-danger'>Delete</Button>
-                        </Card.Body>
-                    </Card>
-                    <Card style={{ width: '18rem' }}>
-                        <Card.Img variant="top" className='mt-3' src="./com.jpg" />
-                        <Card.Body>
-                            <Card.Title>Computer</Card.Title>
-                            <Card.Text>Date : 12/03/2002</Card.Text>
-                            <Button className='btn btn-danger'>Delete</Button>
-                        </Card.Body>
-                    </Card>
+                    {
+                        images.length > 0 ? images.map((el, i) => {
+                            return (
+                                <>
+                                    <Card style={{ width: '18rem' }} >
+                                        <Card.Img variant="top" className='mt-3' src={`/uploads/${el.imgpath}`} />
+                                        <Card.Body>
+                                            <Card.Title>{el.title}</Card.Title>
+                                            <Card.Text>{el.date}</Card.Text>
+                                            <Button className='btn btn-danger'>Delete</Button>
+                                        </Card.Body>
+                                    </Card>
+                                </>
+                            )
+                        }) : ""
+                    }
+
+
                 </div>
             </div>
         </>

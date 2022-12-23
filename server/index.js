@@ -8,7 +8,7 @@ const PORT = 8003;
 app.use(router);
 app.use(cors());
 app.use(express.json());
-app.use("/upload",express.static("./upload"));
+app.use("/uploads",express.static("./uploads"));
 
 Connection();
 
